@@ -39,21 +39,27 @@ If you have the ability to create skin parts, feel free to contribute!
 
 ### Example node function explanation
 
-Currently this generator provides 4 types of examples of basic skin parts, and two types of examples of advanced skin parts. From easy to hard, they are.
+Currently this generator provides examples of 4 basic types of skin widgets: 
 
-Directly placed skin widgets, Skin widgets with masking, Skin widgets with grayscale, Skin widgets with masking and grayscale.
+Directly placed skin widgets, skin widgets with grayscale, skin widgets with two shades of gray, and color grayscale control skin widgets.
 
-Directly placed skin parts are easy to understand, as long as you have a suitable skin part, just replace the first skin file of the routine node with your own skin part.
+Directly placed skin widgets is easy to understand, as long as you have a suitable skin widget, just replace the first skin file of the routine node with your own skin widget.
 
-Skin parts with masks require a mask file in addition to the skin part above. This mask file is used to erase the textures of the previous compositing node to place the textures of the higher layers. See below for the reasons why this is done.
+Skin widgets with grayscale, it is possible to make that widget color change by adjusting the custom color. If the skin part is all grayscale, just convert it to grayscale (note that it is not de-colored, mainstream image processing software can basically do color to grayscale function), delete the second texture (note that it is not deleting the texture node, but should click the "X" sign in the node); the skin part should be in The skin part should be grayscale in the texture part; it just needs an extra step to make a mask of the grayscale area and add it to the second image file node: the mask color is arbitrary, so you can just take the grayscale file as a mask file.
 
-Skin parts with grayscale, it is possible to make this part color change by adjusting the custom color. If the skin part is all grayscale, just convert it to grayscale (note that it's not a de-colorization process, mainstream image processing software can basically do color to grayscale) and delete the second texture (note that instead of deleting the texture node, you should click the "X" sign in that node); the skin part should be in The skin part should be grayed out in the colorable texture section; it just needs an extra step to make a mask of the grayed out area and add that mask to the second image file node.
-
-Skin parts with masking and grayscale are a combination of both, see above.
-
-In addition, the double grayscale skin part allows changing both colors of the skin part, depending on the grayscale area assigned. This allows the derivation of multi-gradient skin parts.
+Skin widgets with two shades of gray can change both colors of the skin part, depending on the grayscale area assigned. This allows for the derivation of multi-gray skin parts.
 
 The color grayscale control widget can change the color of light and dark areas, while the grayscale map controls the color of the entire texture.
+
+### Masking methods
+
+There are three ways to add a mask: draw your own mask, use the node-generated mask, and don't use the mask.
+
+Draw your own mask. As the name implies, you need to draw your own masked area. The color of the mask is optional, just make sure that the area outside the mask is transparent. Add the mask to the "Put mask here" input texture, and then connect the corresponding node to the Alpha overlay node to set the mask.
+
+Use the node-generated mask, connect the node contained in the "Automask" node group to the Alpha node to automatically generate a mask that does not block the inner layer based on the skin.
+
+Don't use the mask, unlink the nodes in the Alpha overlay (Ctrl+Right click).
 
 ### How to create a new node as an example of  the node
 
@@ -78,8 +84,7 @@ Basically the same as above. After importing, if you need to add nodes, you can 
 
 ### Caution
 
-1. Do not use pure black and pure white (#FFFFFF and #000000) when drawing the skin! This is because the mask uses these two colors. If you use these two colors, it will cause this part may be erased as a mask. The solution is to just fine tune the brightness of these two colors. (Author's note: This is supposed to be a bug that the author made, but it's being used as a feature. Don't worry, this problem will be fixed.) 
-2. The main purpose of the mask is to prevent the outer layer of skin from blocking the inner skin, so the mask drawing step can be considered as follows: copy the corresponding mask of the inner layer to the position of the outer layer.
+1. The main purpose of the mask is to prevent the outer layer of skin from blocking the inner skin, so the mask drawing step can be considered as follows: copy the corresponding mask of the inner layer to the position of the outer layer. This is the principle of automatic mask generation for nodes.
 
 ## Principle of the skin generator
 
@@ -92,12 +97,14 @@ This problem is solved, but there is another problem - the problem of custom col
 ## What to do next
 
 1. Continue expanding the skin component. 
-1. add color textures. (Initially done)
-2. find a way to enhance the shading effect of the grayscale + color skin part. (Initially done)
-2. change the HSVA of chroma keying from pure black to transparent color.
+1. Add color textures. (Initially done)
+2. Find a way to enhance the shading effect of the grayscale + color skin part. (Initially done)
+2. Change the HSVA of chroma keying from pure black to transparent color.(Initially done)
 
 ## Copyright & Sharing Notice
 
 The composite node of this skin generator was created by ETW_Zero (eric_zane@hotmail.com). The skin textures for this skin generator were created by ETW_Zero. The player model for this skin generator was created by ETW_Zero.
 
 This skin generator and node set, and its generated textures, image files, and model files are distributed by CC BY-NC-SA 4.0 protocol; only do not distribute the above files to any platform of NetEase Minecraft (网易我的世界)(including but not limited to NetEase Minecraft forum(网易我的世界论坛), NetEase Da Shen（网易大神）, NetEase Minecraft Skin Component Market（网易我的世界皮肤组件市场）, etc.); only do not distribute the above files to [MCBBS(我的世界中文论坛)](www.mcbbs.net). With that in mind, please share and create under the premise of respecting this agreement.
+
+All Right Reserved by ETW_Zero.
