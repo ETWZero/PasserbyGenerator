@@ -39,12 +39,12 @@ class RefreshSkinPreview(bpy.types.Operator):
         bpy.ops.render.render(write_still=True)
 
         try:
-            bpy.data.images["Preview.png"]
+            SkinImage = bpy.data.images["Preview.png"]
         except KeyError as e:
             bpy.ops.image.open(filepath="//texture//Preview.png", files=[{"name":"Preview.png", "name":"Preview.png"}], relative_path=True, show_multiview=False)
             bpy.data.materials["Skin_Without_Eye"].node_tree.nodes["Image Texture"].image = bpy.data.images["Preview.png"]
         finally:
-            bpy.ops.image.reload()
+            SkinImage.reload()
 
         return {"FINISHED"}
 
