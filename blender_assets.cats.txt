@@ -1,0 +1,13 @@
+# This is an Asset Catalog Definition file for Blender.
+#
+# Empty lines and lines starting with `#` will be ignored.
+# The first non-ignored line should be the version indicator.
+# Other lines are of the format "UUID:catalog/path/for/assets:simple catalog name"
+
+VERSION 1
+
+2e2a9cf8-2c8d-4b59-be17-7c725eb2b752:Example:Example
+90da7a6c-d2e9-47f3-8fbc-e1aa6d3724e0:Gradient:Gradient
+2b951302-942d-4b23-8d99-4266e18842ff:Pattern:Pattern
+f6944378-3f5d-4dc8-a056-a82dc7e3c2d7:Shader:Shader
+f84f80e9-ef73-4007-90b2-8fe3d479aea4:Skin_Object:Skin_Object
