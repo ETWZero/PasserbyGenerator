@@ -6,7 +6,23 @@ In addition, this skin generator can theoretically support the generation of dyn
 
 ## How to use
 
+### Prepare for use
+
+Download Blender 3.2 to open this file.
+
+Before you can use the generator, you need to install the addon that comes with the generator. Switch to the "Plugins" tab in "Edit" -> "Preferences", click the "Install "button in the pop-up file explorer, look for the file directory where the generator is located, and double-click the add-on (named "PasserbyGeneratorAddon.py"), then check the "Render. Refresh Skin Preview" plug-in is checked, then the plug-in can be installed successfully.
+
 ### How to edit skins
+
+#### Description of the generator interface
+
+Switch to the "Skin_Generator" workspace, the window is divided into three parts: left, middle and right.
+
+Left side: The upper part of the window is for the model (or skin) preview, and the lower part is for the image editor. In the image editor window, press the "T" key to bring up the sidebar, and in the "Settings" tab there will be the "Salty Man's Passerby Skin Generator" option, in which you can Update the skin preview, or change the model of the skin, and also see the category of the current model (Steve or Alex).
+
+Middle: The upper section is the asset manager, which contains all the skin parts, routine parts, and color gradient parts for this generator. The lower section area is the compositor node, used to place skin nodes for skin generation.
+
+Right side: Properties area, used to set up the project.
 
 #### Basic usage
 
@@ -15,6 +31,8 @@ Switch to the "Skin_Generator" workspace. To add its corresponding skin part to 
 There are two types of skin part nodes, one that allows you to change the clothing color and others that does not. The customization of clothing color can be done by modifying the Custom_Color. The skin parts that cannot change the clothing color can only be dragged to the main node and cannot change the color.
 
 The compositor area can automatically update the skin texture compositing result in real time. The preview area on the left side cannot be updated in real time, so you need to perform perspective operations in the preview area (such as holding down the middle button to rotate the perspective, using the scroll wheel to zoom the perspective, etc.) to update the skin compositing results.
+
+The generator supports both Steve and Alex models, with the Steve and Alex icons corresponding as identifiers in the thumbnails. If mixed it will lead to a possible mapping mismatch in the final skin.
 
 #### Advanced usage
 
@@ -27,6 +45,10 @@ In this generator node, you can customize the contrast/brightness ratio of the c
 Every skin that allows custom colors can have color textures added to it. This skin generator comes with a color gradient texture. In case the skin part is already connected to the main composite, you can connect this node to the "Custom_Color" node of the skin part to preview the effect of the color texture.
 
 If you need more than one color texture, select the texture node and the color gradient node, press "Shift+D" and left-click somewhere else to copy the node. If you right-click on the painting, a copy will be made in the original location instead of undoing the copy.
+
+##### Adding color patterns to skins
+
+Every skin that allows custom colors can have a color pattern added to it, and the user can also connect the color output of the color texture to the color input of the color pattern. The usage is similar to color textures, but the colors of color textures are gradient and the interpolation value can be set by yourself (RGB or HSV); the number of colors of color patterns is extremely limited and only the specified colors can be set.
 
 ### How to do skin export
 
@@ -69,22 +91,38 @@ Don't use the mask, unlink the nodes in the Alpha overlay (Ctrl+Right click).
 4. After that, select the newly created node and press Alt+P to separate the skin part node from the box.
 5. Finally, just customize the node according to the customization method above.
 
-### How to export/import nodes
+### How to generate asset thumbnails
+
+1. You can try to render asset thumbnails yourself, but I have also prepared a thumbnail template. Please read on if you need it. 
+2. Open the template file "Skin_Template_Render.blend". 
+3. Modify the image texture of the "Skin" material and change it to the skin texture you need to generate thumbnails. If you are not satisfied with the base skin texture, you can also modify the image texture of the "Base_Skin" material and customize a base texture. 
+4. Modify the model type. This template contains two models, you need to modify the category of both models separately to display them properly. There is a huge white gear next to the model, select it, and in the sidebar's entry tab, the last "Properties" entry has "Steve & Alex", modify the value to change the model. 0 means Steve, 1 means Alex. 
+5. In the "Scene" tab in the lower right corner, change the active camera, where Head is the head, Upper_Head is the upper body, Upper is the upper body except the head, Pants_Shoes is the lower body, and FullBody is the whole body.
+6. In the compositor to change the classification of asset thumbnails identify the picture, currently divided into two categories of four: can modify the skin color (rainbow ribbon), the model applies to Steve model or Alex model, or universal (Steve icon, Alex icon, a mix of both icons). The compositing group is marked with a logo, and images are added by connecting them to the appropriate location.
+7. Just render with the current render settings.
+
+### How to export/import assets
 
 #### Export
 
-1. Create a new file and click "File"->"Append" in the top bar. 
-2. In the pop-up file manager, find the file you need to export the node, find the "NodeTree" folder in the file, and double-click it to enter. 
-3. Find the nodes you need to export, hold Ctrl or Shift to multi-select, select the nodes you need to export, and press the "Append" button to export these nodes to a new file. 
-4. Save the .blend file.
+1. Create a new file, click "File" -> "Append" in the top bar. 
+2. In the pop-up file manager, find the file you need to export nodes to, find the "NodeTree" folder in the file, double-click it to enter. 
+3. **Check the "Pseudo-User" option on the right**, then find the nodes that need to be exported, hold Ctrl or Shift to multi-select, select the nodes that need to be exported, and press the "Append" button to export these nodes to the file. 
+Assign these nodes, see "How to Assign Nodes" below. 
+5. Save the .blend file.
 
 #### Import
 
-Basically the same as above. After importing, if you need to add nodes, you can Shift+A (Add Node) -> Group at the composite node to find the imported nodes and place them in the composite node.
+If the skin nodes have been assetized, place the .blend file in "C:\\\<username>\Documents\Blender\Assets" to complete the import - don't forget to add it to Blender's "Settings"->"Files & Paths" to set your own asset library path! Next, open the Asset Manager and select the asset library as "User Library" to display all skinned part nodes.
+
+### How to assetize nodes
+
+1. Right click on the node name in the node group and select "Mark as asset" to assetize the node. 
+2. Create a new node or find the asset manager area, select the node you just marked as an asset, and press "n" to expand the sidebar, you can change the thumbnail, description of the asset, and author information.
 
 ### Caution
 
-1. The main purpose of the mask is to prevent the outer layer of skin from blocking the inner skin, so the mask drawing step can be considered as follows: copy the corresponding mask of the inner layer to the position of the outer layer. This is the principle of automatic mask generation for nodes.
+1. The main purpose of the mask is to prevent the outer skin from blocking the inner skin, so the masking step can be considered as follows: copy the corresponding mask of the inner layer to the position of the outer layer. This is the principle of automatic mask generation for nodes.
 
 ## Principle of the skin generator
 
@@ -97,13 +135,13 @@ This problem is solved, but there is another problem - the problem of custom col
 ## What to do next
 
 1. Continue expanding the skin component. 
-1. Add color textures. (Initially done)
-2. Find a way to enhance the shading effect of the grayscale + color skin part. (Initially done)
-2. Change the HSVA of chroma keying from pure black to transparent color.(Initially done)
+2. Add color textures. (Initially done)
+3. Find a way to enhance the shading effect of the grayscale + color skin part. (Initially done)
+4. Change the HSVA of chroma keying from pure black to transparent color.(Initially done)
 
 ## Copyright & Sharing Notice
 
-The composite node of this skin generator was created by ETW_Zero (eric_zane@hotmail.com). The skin textures for this skin generator were created by ETW_Zero. The player model for this skin generator was created by ETW_Zero.
+The composite node of this skin generator was created by ETW_Zero (eric_zane@hotmail.com). If not otherwise specified, The skin textures for this skin generator were created by ETW_Zero. The player model for this skin generator was created by ETW_Zero.
 
 This skin generator and node set, and its generated textures, image files, and model files are distributed by CC BY-NC-SA 4.0 protocol; only do not distribute the above files to any platform of NetEase Minecraft (网易我的世界)(including but not limited to NetEase Minecraft forum(网易我的世界论坛), NetEase Da Shen（网易大神）, NetEase Minecraft Skin Component Market（网易我的世界皮肤组件市场）, etc.); only do not distribute the above files to [MCBBS(我的世界中文论坛)](www.mcbbs.net). With that in mind, please share and create under the premise of respecting this agreement.
 

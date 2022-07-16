@@ -11,3 +11,4 @@ VERSION 1
 2b951302-942d-4b23-8d99-4266e18842ff:Pattern:Pattern
 f6944378-3f5d-4dc8-a056-a82dc7e3c2d7:Shader:Shader
 f84f80e9-ef73-4007-90b2-8fe3d479aea4:Skin_Object:Skin_Object
+496f707d-ab3f-46f0-8041-fe044061e061:Zijie's Outfit Collection:Zijie's Outfit Collection
