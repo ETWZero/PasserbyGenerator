@@ -23,28 +23,34 @@ bl_info = {
     "author" : "Eric Zane",
     "description" : "Passerby generator addon.",
     "blender" : (2, 93, 0),
-    "version" : (0, 1, 2),
+    "version" : (0, 2, 0),
     "location" : "Image Editor -> Sidebar -> Settings",
     "warning" : "",
     "category" : "Render"
 }
 
 class RefreshSkinPreview(bpy.types.Operator):
+    #global SkinImage
     bl_idname = "object.renderskin"
     bl_label = "更新皮肤预览"
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        bpy.context.scene.render.filepath = "//texture//Preview"
+        bpy.context.scene.render.filepath = "//textures//Preview"
         bpy.ops.render.render(write_still=True)
-
+        print('Skin Rendered!')
         try:
+            #global SkinImage
             SkinImage = bpy.data.images["Preview.png"]
-        except KeyError as e:
-            bpy.ops.image.open(filepath="//texture//Preview.png", files=[{"name":"Preview.png", "name":"Preview.png"}], relative_path=True, show_multiview=False)
+            print('Skin Selected!')
+        except:
+            bpy.ops.image.open(filepath="//textures//Preview", relative_path=True, show_multiview=False)
             bpy.data.materials["Skin_Without_Eye"].node_tree.nodes["Image Texture"].image = bpy.data.images["Preview.png"]
+            print('Skin not found, load skin!')
         finally:
+            #bpy.data.images["Preview.png"].filepath = '//textures\\Preview.png'
             SkinImage.reload()
+            print('Skin Reloaded!')
 
         return {"FINISHED"}
 
